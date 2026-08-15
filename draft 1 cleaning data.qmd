@@ -1,0 +1,33 @@
+---
+title: "cleaning data for project"
+format: html
+editor: visual
+---
+```{r}
+library(tidyverse)
+library(readr)
+#load data
+PM25_Boston_2019 <- read_csv("PM25_Boston_2019.csv")
+PM25_Boston_2020 <- read_csv("PM25_Boston_2020.csv")
+PM25_Boston_2021 <- read_csv("PM25_Boston_2021.csv")
+PM25_Springfield_2019 <- read_csv("PM25_Springfield_2019.csv")
+PM25_Springfield_2020 <- read_csv("PM25_Springfield_2020.csv")
+PM25_Springfield_2021 <- read_csv("PM25_Springfield_2021.csv")
+```
+
+```{r}
+# filter for only one Parameter Occurrence Code POC (unique monitor at the site)
+# select only necessary variables
+# measurements every 3 days for entire year
+PM25_Bos_2019_1<- PM25_Boston_2019 |> filter(POC == 1) |> select(Date, POC, `Daily Mean PM2.5 Concentration`, Units, `Daily AQI Value`, `Local Site Name`, `AQS Parameter Description`, `Site Latitude`, `Site Longitude`)
+PM25_Bos_2020_1<- PM25_Boston_2020 |> filter(POC == 1) |> select(Date, POC, `Daily Mean PM2.5 Concentration`, Units, `Daily AQI Value`, `Local Site Name`, `AQS Parameter Description`, `Site Latitude`, `Site Longitude`)
+PM25_Bos_2021_1<- PM25_Boston_2021 |> filter(POC == 1) |> select(Date, POC, `Daily Mean PM2.5 Concentration`, Units, `Daily AQI Value`, `Local Site Name`, `AQS Parameter Description`, `Site Latitude`, `Site Longitude`)
+
+# note that for pm2.5 boston 2021, POC = 3 and 23 have full year daily data
+
+# pm2.5 springfield POC = 3 has full year daily data for all years
+PM25_Spr_2019_1 <- PM25_Springfield_2019 |> filter(POC == 3) |> select(Date, POC, `Daily Mean PM2.5 Concentration`, Units, `Daily AQI Value`, `Local Site Name`, `AQS Parameter Description`, `Site Latitude`, `Site Longitude`)
+PM25_Spr_2020_1 <- PM25_Springfield_2020 |> filter(POC == 3) |> select(Date, POC, `Daily Mean PM2.5 Concentration`, Units, `Daily AQI Value`, `Local Site Name`, `AQS Parameter Description`, `Site Latitude`, `Site Longitude`)
+PM25_Spr_2021_1 <- PM25_Springfield_2021 |> filter(POC == 3) |> select(Date, POC, `Daily Mean PM2.5 Concentration`, Units, `Daily AQI Value`, `Local Site Name`, `AQS Parameter Description`, `Site Latitude`, `Site Longitude`)
+```
+

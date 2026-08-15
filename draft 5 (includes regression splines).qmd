@@ -1,0 +1,246 @@
+---
+title: "cleaning data for project"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(readr)
+library(lubridate)
+library(dplyr)
+#load data
+#boston kenmore
+PM25_Boston_2018 <- read_csv("project/PM25_Boston_2018.csv")
+PM25_Boston_2019 <- read_csv("project/PM25_Boston_2019.csv")
+PM25_Boston_2020 <- read_csv("project/PM25_Boston_2020.csv")
+PM25_Boston_2021 <- read_csv("project/PM25_Boston_2021.csv")
+PM25_Boston_2022 <- read_csv("project/PM25_Boston_2022.csv")
+#springfield
+PM25_Springfield_2018 <- read_csv("project/PM25_Springfield_2018.csv")
+PM25_Springfield_2019 <- read_csv("project/PM25_Springfield_2019.csv")
+PM25_Springfield_2020 <- read_csv("project/PM25_Springfield_2020.csv")
+PM25_Springfield_2021 <- read_csv("project/PM25_Springfield_2021.csv")
+PM25_Springfield_2022 <- read_csv("project/PM25_Springfield_2022.csv")
+#worcester
+PM25_Worcester_2018 <- read_csv("project/PM25_Worcester_2018.csv")
+PM25_Worcester_2019 <- read_csv("project/PM25_Worcester_2019.csv")
+PM25_Worcester_2020 <- read_csv("project/PM25_Worcester_2020.csv")
+PM25_Worcester_2021 <- read_csv("project/PM25_Worcester_2021.csv")
+PM25_Worcester_2022 <- read_csv("project/PM25_Worcester_2022.csv")
+#brockton
+PM25_Brockton_2018 <- read_csv("project/PM25_Brockton_2018.csv")
+PM25_Brockton_2019 <- read_csv("project/PM25_Brockton_2019.csv")
+PM25_Brockton_2020 <- read_csv("project/PM25_Brockton_2020.csv")
+PM25_Brockton_2021 <- read_csv("project/PM25_Brockton_2021.csv")
+PM25_Brockton_2022 <- read_csv("project/PM25_Brockton_2022.csv")
+#clelmsford (near lowell)
+PM25_Clemsford_2018 <- read_csv("project/PM25_Clelmsford_2018.csv")
+PM25_Clemsford_2019 <- read_csv("project/PM25_Clemsford_2019.csv")
+PM25_Clemsford_2020 <- read_csv("project/PM25_Clemsford_2020.csv")
+PM25_Clemsford_2021 <- read_csv("project/PM25_Clemsford_2021.csv")
+PM25_Clemsford_2022 <- read_csv("project/PM25_Clelmsford_2022.csv")
+#north adams
+PM25_NorthAdams_2018 <- read_csv("project/PM25_NorthAdams_2018.csv")
+PM25_NorthAdams_2019 <- read_csv("project/PM25_NorthAdams_2019.csv")
+PM25_NorthAdams_2020 <- read_csv("project/PM25_NorthAdams_2020.csv")
+PM25_NorthAdams_2021 <- read_csv("project/PM25_NorthAdams_2021.csv")
+PM25_NorthAdams_2022 <- read_csv("project/PM25_NorthAdams_2022.csv")
+```
+
+```{r}
+# filter for only one Parameter Occurrence Code POC (unique monitor at the site)
+# select only necessary variables
+# And and rename Daily PM2.5 Concentration and POC to be unique for each city
+# measurements every 3 days for entire year
+
+PM25_Bos_2018_1 <- PM25_Boston_2018 |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Boston Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Bos_2019_1<- PM25_Boston_2019 |> filter(POC == 1) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Boston Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Bos_2020_1<- PM25_Boston_2020 |> filter(POC == 1) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Boston Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`) 
+PM25_Bos_2021_1<- PM25_Boston_2021 |> filter(POC == 1) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Boston Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Bos_2022_1<- PM25_Boston_2022 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Boston Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+
+# note that for pm2.5 boston 2021, POC = 3 and 23 have full year daily data
+
+# pm2.5 springfield POC = 3 has full year daily data for all years
+PM25_Spr_2019_1 <- PM25_Springfield_2019 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Springfield Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Spr_2020_1 <- PM25_Springfield_2020 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Springfield Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Spr_2021_1 <- PM25_Springfield_2021 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Springfield Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+
+# worcester, POC=3 has full year daily data
+
+PM25_Wor_2018_1 <- PM25_Worcester_2018 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Worcester Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Wor_2019_1 <- PM25_Worcester_2019 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Worcester Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Wor_2020_1 <- PM25_Worcester_2020 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Worcester Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Wor_2021_1 <- PM25_Worcester_2021 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Worcester Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Wor_2022_1 <- PM25_Worcester_2022 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Worcester Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+
+# brockton, POC=3 has full year daily data
+PM25_Bro_2018_1 <- PM25_Brockton_2018 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Brockton Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Bro_2019_1 <- PM25_Brockton_2019 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Brockton Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Bro_2020_1 <- PM25_Brockton_2020 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Brockton Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Bro_2021_1 <- PM25_Brockton_2021 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Brockton Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Bro_2022_1 <- PM25_Brockton_2022 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Brockton Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+
+# clemsford, POC=3 has full year daily data
+PM25_Cle_2018_1 <- PM25_Clemsford_2018 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Clemsford Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Cle_2019_1 <- PM25_Clemsford_2019 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Clemsford Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Cle_2020_1 <- PM25_Clemsford_2020 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Clemsford Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Cle_2021_1 <- PM25_Clemsford_2021 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Clemsford Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Cle_2022_1 <- PM25_Clemsford_2022 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Clemsford Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+
+# north adams, POC=3 has full year daily data
+PM25_Nor_2018_1 <- PM25_NorthAdams_2018 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`North Adams Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Nor_2019_1 <- PM25_NorthAdams_2019 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`North Adams Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Nor_2020_1 <- PM25_NorthAdams_2020 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`North Adams Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Nor_2021_1 <- PM25_NorthAdams_2021 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`North Adams Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Nor_2022_1 <- PM25_NorthAdams_2022 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`North Adams Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+```
+
+```{r}
+# merge cities by date onto yearly df
+#excluding springfield now because it's missing march 2020 dates
+#ALSO excluding clelmsford because its missing first half of 2018
+all_2018 <- plyr::join_all(list(PM25_Bos_2018_1,PM25_Wor_2018_1, PM25_Bro_2018_1, PM25_Nor_2018_1), by='Date', type='left')
+all_2019 <- plyr::join_all(list(PM25_Bos_2019_1,PM25_Wor_2019_1, PM25_Bro_2019_1, PM25_Nor_2019_1), by='Date', type='left')
+all_2020 <- plyr::join_all(list(PM25_Bos_2020_1,PM25_Wor_2020_1, PM25_Bro_2020_1, PM25_Nor_2020_1), by='Date', type='left')
+all_2021 <- plyr::join_all(list(PM25_Bos_2021_1,PM25_Wor_2021_1, PM25_Bro_2021_1, PM25_Nor_2021_1), by='Date', type='left')
+all_2022 <- plyr::join_all(list(PM25_Bos_2022_1,PM25_Wor_2022_1, PM25_Bro_2022_1, PM25_Nor_2022_1), by='Date', type='left')
+
+# merge all into one dataset
+all_PM25 <- rbind(all_2018, all_2019, all_2020, all_2021, all_2022)
+
+# format $Date field
+all_PM25$Date <- as.Date(all_PM25$Date, format='%m/%d/%Y')
+
+# create new column for year
+all_PM25$Year <- as.character(lubridate::year(all_PM25$Date))
+
+# assign consecutive number values to each date
+all_PM25$Date_Number = as.integer(as.factor(all_PM25$Date))
+
+# make it all every 3 days
+library(tsibble)
+library(tibbletime)
+
+all_PM25 <- as_tbl_time(all_PM25, Date)
+all_PM25<- as_period(all_PM25_test, '3 d', start_date = "2018-01-05")
+```
+
+## plots, visuals
+```{r}
+library(astsa)
+# On March 23, Governor Baker announced a stay-at-home advisory effective from noon March 24 until noon April 7
+# march 10 to may 29 I think is when restrictions were in place
+# this would be equal to time points 233 and 258
+par(mfrow=c(2,2))
+plot.ts(all_PM25$`Boston Daily Mean PM2.5 Concentration`, main="Boston", ylab="Daily Mean PM2.5 Concentration", ylim=c(0, 27))
+abline(v=233, col="red", lw=1)
+abline(v=258, col="red", lw=1)
+# plot.ts(all_PM25$`Springfield Daily Mean PM2.5 Concentration`, main="Springfield", ylab="Daily Mean PM2.5 Concentration", ylim=c(0, 30))
+# abline(v=138, col="red", lw=1)
+# abline(v=163, col="red", lw=1)
+plot.ts(all_PM25$`Worcester Daily Mean PM2.5 Concentration`, main="Worcester", ylab="Daily Mean PM2.5 Concentration", ylim=c(0, 27))
+abline(v=233, col="red", lw=1)
+abline(v=258, col="red", lw=1)
+plot.ts(all_PM25$`Brockton Daily Mean PM2.5 Concentration`, main="Brockton", ylab="Daily Mean PM2.5 Concentration", ylim=c(0, 27))
+abline(v=233, col="red", lw=1)
+abline(v=258, col="red", lw=1)
+# plot.ts(all_PM25$`Clemsford Daily Mean PM2.5 Concentration`, main="Clemsford", ylab="Daily Mean PM2.5 Concentration", ylim=c(0, 30))
+# abline(v=138, col="red", lw=1)
+# abline(v=163, col="red", lw=1)
+plot.ts(all_PM25$`North Adams Daily Mean PM2.5 Concentration`, main="North Adams", ylab="Daily Mean PM2.5 Concentration", ylim=c(0, 27))
+abline(v=233, col="red", lw=1)
+abline(v=258, col="red", lw=1)
+
+```
+
+```{r}
+par(mfrow=c(2, 2))
+plot.ts(PM25_Bos_2018_1$`Boston Daily Mean PM2.5 Concentration`, main="Boston", ylab="Daily Mean PM2.5 Concentration", ylim=c(0, 27), col="pink", lw=1.2)
+lines(PM25_Bos_2019_1$`Boston Daily Mean PM2.5 Concentration`, col="orchid", lw=1.2)
+lines(PM25_Bos_2020_1$`Boston Daily Mean PM2.5 Concentration`, col="black", lw=2)
+lines(PM25_Bos_2021_1$`Boston Daily Mean PM2.5 Concentration`, col="lightskyblue", lw=1.2)
+lines(PM25_Bos_2022_1$`Boston Daily Mean PM2.5 Concentration`, col="seagreen3", lw=1.2)
+abline(v=22, col="black", lw=1, lty=2)
+abline(v=49, col="black", lw=1, lty=2)
+
+legend('topright', legend = c('2018', '2019', '2020', '2021', '2022'), col = c('pink', 'orchid', 'black', 'lightskyblue', 'seagreen3'), lty = 1, lwd=2)
+
+# use same 3 day pattern as in all_PM25 data
+PM25_Wor_2018_2 <- all_PM25 |> select(Date, `Worcester Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2018)
+PM25_Wor_2019_2 <- all_PM25 |> select(Date, `Worcester Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2019)
+PM25_Wor_2020_2 <- all_PM25 |> select(Date, `Worcester Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2020)
+PM25_Wor_2021_2 <- all_PM25 |> select(Date, `Worcester Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2021)
+PM25_Wor_2022_2 <- all_PM25 |> select(Date, `Worcester Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2022)
+
+plot.ts(PM25_Wor_2018_2$`Worcester Daily Mean PM2.5 Concentration`, main="Worcester", ylab="Daily Mean PM2.5 Concentration", ylim=c(0, 27), col="pink", lw=1.2)
+lines(PM25_Wor_2019_2$`Worcester Daily Mean PM2.5 Concentration`, col="orchid", lw=1.2)
+lines(PM25_Wor_2020_2$`Worcester Daily Mean PM2.5 Concentration`, col="black", lw=2)
+lines(PM25_Wor_2021_2$`Worcester Daily Mean PM2.5 Concentration`, col="lightskyblue", lw=1.2)
+lines(PM25_Wor_2022_2$`Worcester Daily Mean PM2.5 Concentration`, col="seagreen3", lw=1.2)
+abline(v=22, col="black", lw=1, lty=2)
+abline(v=49, col="black", lw=1, lty=2)
+
+# use same 3 day pattern as in all_PM25 data
+PM25_Bro_2018_2 <- all_PM25 |> select(Date, `Brockton Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2018)
+PM25_Bro_2019_2 <- all_PM25 |> select(Date, `Brockton Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2019)
+PM25_Bro_2020_2 <- all_PM25 |> select(Date, `Brockton Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2020)
+PM25_Bro_2021_2 <- all_PM25 |> select(Date, `Brockton Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2021)
+PM25_Bro_2022_2 <- all_PM25 |> select(Date, `Brockton Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2022)
+
+plot.ts(PM25_Bro_2018_2$`Brockton Daily Mean PM2.5 Concentration`, main="Brockton", ylab="Daily Mean PM2.5 Concentration", ylim=c(0, 27), col="pink", lw=1.2)
+lines(PM25_Bro_2019_2$`Brockton Daily Mean PM2.5 Concentration`, col="orchid", lw=1.2)
+lines(PM25_Bro_2020_2$`Brockton Daily Mean PM2.5 Concentration`, col="black", lw=2)
+lines(PM25_Bro_2021_2$`Brockton Daily Mean PM2.5 Concentration`, col="lightskyblue", lw=1.2)
+lines(PM25_Bro_2022_2$`Brockton Daily Mean PM2.5 Concentration`, col="seagreen3", lw=1.2)
+abline(v=22, col="black", lw=1, lty=2)
+abline(v=49, col="black", lw=1, lty=2)
+
+# use same 3 day pattern as in all_PM25 data
+PM25_Nor_2018_2 <- all_PM25 |> select(Date, `North Adams Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2018)
+PM25_Nor_2019_2 <- all_PM25 |> select(Date, `North Adams Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2019)
+PM25_Nor_2020_2 <- all_PM25 |> select(Date, `North Adams Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2020)
+PM25_Nor_2021_2 <- all_PM25 |> select(Date, `North Adams Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2021)
+PM25_Nor_2022_2 <- all_PM25 |> select(Date, `North Adams Daily Mean PM2.5 Concentration`, Year) |>filter(Year==2022)
+
+plot.ts(PM25_Nor_2018_2$`North Adams Daily Mean PM2.5 Concentration`, main="North Adams", ylab="Daily Mean PM2.5 Concentration", ylim=c(0, 27), col="pink", lw=1.2)
+lines(PM25_Nor_2019_2$`North Adams Daily Mean PM2.5 Concentration`, col="orchid", lw=1.2)
+lines(PM25_Nor_2020_2$`North Adams Daily Mean PM2.5 Concentration`, col="black", lw=2)
+lines(PM25_Nor_2021_2$`North Adams Daily Mean PM2.5 Concentration`, col="lightskyblue", lw=1.2)
+lines(PM25_Nor_2022_2$`North Adams Daily Mean PM2.5 Concentration`, col="seagreen3", lw=1.2)
+abline(v=22, col="black", lw=1, lty=2)
+abline(v=49, col="black", lw=1, lty=2)
+```
+
+
+
+
+## Regression splines
+
+with splines set for jan 1 - dec 31 2020 so that we can see how the seasonal trends of air pollution were impacted
+
+For boston data
+```{r}
+# remove NA values
+PM25_Boston <- all_PM25 |> select(Date, `Boston Daily Mean PM2.5 Concentration`)
+PM25_Boston <- na.omit(PM25_Boston)
+
+# regression splines with 2 knots
+x_boston<- PM25_Boston$`Boston Daily Mean PM2.5 Concentration`
+t<- time(x_boston)
+# 210 to 321 are 2020 measurements
+knot1<- 210
+knot2<- 321
+t2_knot1 <- (t - knot1)^2*I((t - knot1)^2)
+t2_knot2 <- (t - knot2)^2*I((t - knot2)^2)
+fit_boston <- lm(x_boston ~ t + t^2 + t2_knot1+ t2_knot2)
+par(mfrow=c(1, 1)) 
+plot.ts(x_boston, lty=1)
+lines(fit_boston$fitted.values, col="blue")
+abline(v = c(knot1, knot2), col = "gray")
+```
+
+
+
+

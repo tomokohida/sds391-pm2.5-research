@@ -1,0 +1,137 @@
+---
+title: "cleaning data for project"
+format: html
+editor: visual
+---
+```{r}
+library(tidyverse)
+library(readr)
+library(lubridate)
+library(plyr)
+library(dplyr)
+#load data
+#boston kenmore
+PM25_Boston_2019 <- read_csv("PM25_Boston_2019.csv")
+PM25_Boston_2020 <- read_csv("PM25_Boston_2020.csv")
+PM25_Boston_2021 <- read_csv("PM25_Boston_2021.csv")
+#springfield
+PM25_Springfield_2019 <- read_csv("PM25_Springfield_2019.csv")
+PM25_Springfield_2020 <- read_csv("PM25_Springfield_2020.csv")
+PM25_Springfield_2021 <- read_csv("PM25_Springfield_2021.csv")
+#worcester
+PM25_Worcester_2019 <- read_csv("PM25_Worcester_2019.csv")
+PM25_Worcester_2020 <- read_csv("PM25_Worcester_2020.csv")
+PM25_Worcester_2021 <- read_csv("PM25_Worcester_2021.csv")
+#brockton
+PM25_Brockton_2019 <- read_csv("PM25_Brockton_2019.csv")
+PM25_Brockton_2020 <- read_csv("PM25_Brockton_2020.csv")
+PM25_Brockton_2021 <- read_csv("PM25_Brockton_2021.csv")
+#clemsford (near lowell)
+PM25_Clemsford_2019 <- read_csv("PM25_Clemsford_2019.csv")
+PM25_Clemsford_2020 <- read_csv("PM25_Clemsford_2020.csv")
+PM25_Clemsford_2021 <- read_csv("PM25_Clemsford_2021.csv")
+#north adams
+PM25_NorthAdams_2019 <- read_csv("PM25_NorthAdams_2019.csv")
+PM25_NorthAdams_2020 <- read_csv("PM25_NorthAdams_2020.csv")
+PM25_NorthAdams_2021 <- read_csv("PM25_NorthAdams_2021.csv")
+```
+
+```{r}
+# filter for only one Parameter Occurrence Code POC (unique monitor at the site)
+# select only necessary variables
+# And and rename Daily PM2.5 Concentration and POC to be unique for each city
+# measurements every 3 days for entire year
+PM25_Bos_2019_1<- PM25_Boston_2019 |> filter(POC == 1) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Boston Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Bos_2020_1<- PM25_Boston_2020 |> filter(POC == 1) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Boston Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`) 
+PM25_Bos_2021_1<- PM25_Boston_2021 |> filter(POC == 1) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Boston Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+
+# note that for pm2.5 boston 2021, POC = 3 and 23 have full year daily data
+
+# pm2.5 springfield POC = 3 has full year daily data for all years
+PM25_Spr_2019_1 <- PM25_Springfield_2019 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Springfield Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Spr_2020_1 <- PM25_Springfield_2020 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Springfield Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Spr_2021_1 <- PM25_Springfield_2021 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Springfield Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+
+# worcester, POC=3 has full year daily data
+PM25_Wor_2019_1 <- PM25_Worcester_2019 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Worcester Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Wor_2020_1 <- PM25_Worcester_2020 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Worcester Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Wor_2021_1 <- PM25_Worcester_2021 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Worcester Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+
+# brockton, POC=3 has full year daily data
+PM25_Bro_2019_1 <- PM25_Brockton_2019 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Brockton Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Bro_2020_1 <- PM25_Brockton_2020 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Brockton Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Bro_2021_1 <- PM25_Brockton_2021 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Brockton Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+
+# clemsford, POC=3 has full year daily data
+PM25_Cle_2019_1 <- PM25_Clemsford_2019 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Clemsford Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Cle_2020_1 <- PM25_Clemsford_2020 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Clemsford Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Cle_2021_1 <- PM25_Clemsford_2021 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`Clemsford Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+
+# north adams, POC=3 has full year daily data
+PM25_Nor_2019_1 <- PM25_NorthAdams_2019 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`North Adams Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Nor_2020_1 <- PM25_NorthAdams_2020 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`North Adams Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+PM25_Nor_2021_1 <- PM25_NorthAdams_2021 |> filter(POC == 3) |> select(Date, `Daily Mean PM2.5 Concentration`) |> rename(`North Adams Daily Mean PM2.5 Concentration` = `Daily Mean PM2.5 Concentration`)
+
+```
+
+```{r}
+# merge cities by date onto yearly df
+all_2019 <- join_all(list(PM25_Bos_2019_1,PM25_Spr_2019_1,PM25_Wor_2019_1, PM25_Bro_2019_1, PM25_Cle_2019_1, PM25_Nor_2019_1), by='Date', type='left')
+all_2020 <- join_all(list(PM25_Bos_2020_1,PM25_Spr_2020_1,PM25_Wor_2020_1, PM25_Bro_2020_1, PM25_Cle_2020_1, PM25_Nor_2020_1), by='Date', type='left')
+all_2021 <- join_all(list(PM25_Bos_2021_1,PM25_Spr_2021_1,PM25_Wor_2021_1, PM25_Bro_2021_1, PM25_Cle_2021_1, PM25_Nor_2021_1), by='Date', type='left')
+
+# merge all into one dataset
+all_PM25 <- rbind(all_2019, all_2020, all_2020)
+
+# format $Date field
+all_PM25$Date <- as.Date(all_PM25$Date, format='%m/%d/%Y')
+
+# create new column for year
+all_PM25$Year <- as.character(year(all_PM25$Date))
+
+# assign consecutive number values to each date
+all_PM25$Date_Number = as.integer(as.factor(all_PM25$Date))
+```
+
+
+```{r}
+# # merge boston and springfield 
+# Bos_Spr_2019 <- left_join(PM25_Bos_2019_1, PM25_Spr_2019_1, by = "Date") 
+# Bos_Spr_2020 <- left_join(PM25_Bos_2020_1, PM25_Spr_2020_1, by = "Date")
+# Bos_Spr_2021 <- left_join(PM25_Bos_2021_1, PM25_Spr_2021_1, by = "Date")
+# 
+# # merge all into one dataset
+# PM25_Bos_Spr <- rbind(Bos_Spr_2019, Bos_Spr_2020, Bos_Spr_2021)
+# 
+# # format $Date field
+# PM25_Bos_Spr$Date <- as.Date(PM25_Bos_Spr$Date, format='%m/%d/%Y')
+# 
+# # create new column for year
+# PM25_Bos_Spr$Year <- as.character(year(PM25_Bos_Spr$Date))
+# 
+# # assign consecutive number values to each date
+# PM25_Bos_Spr$Date_Number = as.integer(as.factor(PM25_Bos_Spr$Date))
+```
+
+```{r}
+# # TEST: merging onto springfield data, leaving missing values
+# # merge boston and springfield 
+# TESTBos_Spr_2019 <- left_join(PM25_Spr_2019_1, PM25_Bos_2019_1, by = "Date")
+# TESTBos_Spr_2020 <- left_join(PM25_Spr_2020_1, PM25_Bos_2020_1, by = "Date")
+# TESTBos_Spr_2021 <- left_join(PM25_Spr_2021_1, PM25_Bos_2021_1, by = "Date")
+# 
+# # merge all into one dataset
+# TESTPM25_Bos_Spr <- rbind(TESTBos_Spr_2019, TESTBos_Spr_2020, TESTBos_Spr_2021)
+# 
+# # format $Date field
+# TESTPM25_Bos_Spr$Date <- as.Date(TESTPM25_Bos_Spr$Date, format='%m/%d/%Y')
+# 
+# # create new column for year
+# TESTPM25_Bos_Spr$Year <- as.character(year(TESTPM25_Bos_Spr$Date))
+# 
+# # assign consecutive number values to each date
+# TESTPM25_Bos_Spr$Date_Number = as.integer(as.factor(TESTPM25_Bos_Spr$Date))
+```
+
+
+
